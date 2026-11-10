@@ -1,0 +1,26 @@
+Project 2: Smart Campus Navigation and Facility Analytics System
+Team Contributions Statement (Milestone 1)
+
+--------------------------------------------------------------------------------
+1. Team Member: Jared (Group Leader)
+   - Modules Owned / Responsibilities:
+     
+
+--------------------------------------------------------------------------------
+2. Team Member: Oscar
+   - Modules Owned / Responsibilities: (Member 2)
+    * Campus Graphs, bfs, and diagnostics.
+    * Developed and tested code within main.cpp to coordinate program initialization, file loading, and the menu loop.
+    * Assisted with the implementation and integration of source files across the src/ module.
+
+--------------------------------------------------------------------------------
+3. Team Member: Isaac
+   - Modules Owned / Responsibilities:
+     
+
+--------------------------------------------------------------------------------
+Shared Work (Contributed by All Members):
+- File-loading utilities, error handling, and line validation logic
+- Interactive menu loop implementation and input sanitization
+- Collaborative testing, debugging, and test case execution
+- Project documentation (README.txt, design_document.txt, test_results.txt)
