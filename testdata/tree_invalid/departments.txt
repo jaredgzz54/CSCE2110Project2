@@ -1,0 +1,16 @@
+# DepartmentName|ParentName  (this file uses Windows CRLF line endings)
+
+Engineering Dept|University
+   University  |  NONE   
+College of Engineering|University
+COLLEGE OF ENGINEERING|University
+Mathematics|College of Science
+College of Science|university
+Mathematics|College of Science
+Physics
+Physics|College of Science|Extra
+|College of Science
+Chemistry|
+Second Root|NONE
+   # indented comment line
+Room #5 Dept|College of Science
