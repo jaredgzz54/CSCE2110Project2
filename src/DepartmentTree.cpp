@@ -3,12 +3,15 @@
 #include <algorithm>
 #include <cctype>
 
+using namespace std;
+
 DepartmentTree::DepartmentTree() : root(nullptr) {}
 
 DepartmentTree::~DepartmentTree() {
     clearTree(root);
 }
 
+// Deletes children and the parent node. Deletes Children first ofc
 void DepartmentTree::clearTree(Node* node) {
     if (!node) return;
     for (Node* child : node->children) {
@@ -17,24 +20,34 @@ void DepartmentTree::clearTree(Node* node) {
     delete node;
 }
 
+// Helper function to check if the main tree is empty
 bool DepartmentTree::isEmpty() const { return root == nullptr; }
 
-std::string normalizeStr(const std::string& str) {
+// Cuts off unneccesary spaces from strings we want to check. (Makes it easier to work with)
+string normalizeStr(const string& str) {
+    // Cuts off beginning spaces
     size_t first = str.find_first_not_of(" \t\r\n");
-    if (first == std::string::npos) return "";
+    if (first == string::npos) return "";
+
+    // Cuts off ending spaces
     size_t last = str.find_last_not_of(" \t\r\n");
+    
     return str.substr(first, (last - first + 1));
 }
 
-DepartmentTree::Node* DepartmentTree::findNode(Node* current, const std::string& name) const {
+// Finds node in the tree from the node specified. (Basically checks children nodes from the node its given for the given string)
+DepartmentTree::Node* DepartmentTree::findNode(Node* current, const string& name) const {
     if (!current) return nullptr;
-    std::string currNorm = current->name;
-    std::string targetNorm = name;
-    std::transform(currNorm.begin(), currNorm.end(), currNorm.begin(), ::tolower);
-    std::transform(targetNorm.begin(), targetNorm.end(), targetNorm.begin(), ::tolower);
+    string currNorm = current->name;
+    string targetNorm = name;
+
+    // Lowercases all strings to check
+    transform(currNorm.begin(), currNorm.end(), currNorm.begin(), ::tolower);
+    transform(targetNorm.begin(), targetNorm.end(), targetNorm.begin(), ::tolower);
 
     if (currNorm == targetNorm) return current;
 
+    // Starts to check for children nodes
     for (Node* child : current->children) {
         Node* found = findNode(child, name);
         if (found) return found;
@@ -42,8 +55,9 @@ DepartmentTree::Node* DepartmentTree::findNode(Node* current, const std::string&
     return nullptr;
 }
 
-bool DepartmentTree::addDepartment(const std::string& name, const std::string& parentName) {
-    std::string normName = normalizeStr(name);
+// Adds department to tree
+bool DepartmentTree::addDepartment(const string& name, const string& parentName) {
+    string normName = normalizeStr(name);
     if (normName.empty()) return false;
     if (findNode(root, normName)) return false; // Duplicate check
 
@@ -52,7 +66,7 @@ bool DepartmentTree::addDepartment(const std::string& name, const std::string& p
         return true;
     }
 
-    std::string normParent = normalizeStr(parentName);
+    string normParent = normalizeStr(parentName);
     Node* parentNode = findNode(root, normParent);
     if (!parentNode) return false;
 
@@ -61,10 +75,11 @@ bool DepartmentTree::addDepartment(const std::string& name, const std::string& p
     return true;
 }
 
-bool DepartmentTree::searchDepartment(const std::string& name) const {
+// 
+bool DepartmentTree::searchDepartment(const string& name) const {
     Node* node = findNode(root, name);
     if (!node) {
-        std::cout << "Department not found: " << name << std::endl;
+        cout << "Department not found: " << name << endl;
         return false;
     }
 
@@ -76,31 +91,33 @@ bool DepartmentTree::searchDepartment(const std::string& name) const {
         curr = curr->parent;
     }
 
-    std::cout << "Found Department: " << node->name << std::endl;
-    std::cout << "Parent: " << (node->parent ? node->parent->name : "None") << std::endl;
-    std::cout << "Direct Children Count: " << node->children.size() << std::endl;
-    std::cout << "Depth: " << depth << std::endl;
+    cout << "Found Department: " << node->name << endl;
+    cout << "Parent: " << (node->parent ? node->parent->name : "None") << endl;
+    cout << "Direct Children Count: " << node->children.size() << endl;
+    cout << "Depth: " << depth << endl;
     return true;
 }
 
 void DepartmentTree::displayIndented(Node* current, int depth) const {
     if (!current) return;
-    for (int i = 0; i < depth; ++i) std::cout << "    ";
-    std::cout << current->name << std::endl;
+    for (int i = 0; i < depth; ++i) cout << "    ";
+    cout << current->name << endl;
     for (Node* child : current->children) {
         displayIndented(child, depth + 1);
     }
 }
 
+// Displays hierarchy of the tree. Rejects if root is NULL
 void DepartmentTree::displayHierarchy() const {
     if (!root) {
-        std::cout << "No departments loaded." << std::endl;
+        cout << "No departments loaded." << endl;
         return;
     }
     displayIndented(root, 0);
 }
 
-void DepartmentTree::preorderHelper(Node* current, std::vector<std::string>& result) const {
+// Helper for preorder traversal
+void DepartmentTree::preorderHelper(Node* current, vector<string>& result) const {
     if (!current) return;
     result.push_back(current->name);
     for (Node* child : current->children) {
@@ -108,8 +125,9 @@ void DepartmentTree::preorderHelper(Node* current, std::vector<std::string>& res
     }
 }
 
-std::vector<std::string> DepartmentTree::getPreorderTraversal() const {
-    std::vector<std::string> result;
+// Runs search algorithum via preorder
+vector<string> DepartmentTree::getPreorderTraversal() const {
+    vector<string> result;
     preorderHelper(root, result);
     return result;
 }
