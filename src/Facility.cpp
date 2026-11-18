@@ -5,7 +5,7 @@ Facility::Facility() : ID(""), Name(""), Building (""), Category(""){}
 Facility::Facility(std::string id, std::string name, std::string building, std::string category): ID(id), Name(name), Building(building), Category(category){}
 Facility::~Facility()
 {
-    cout << "Destructor has been called" << endl;
+    std::cout << "Destructor has been called" << std::endl;
 }
 
 
